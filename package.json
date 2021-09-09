@@ -8,6 +8,7 @@
   "bin": {
     "gendiff": "/gendiff.js"
   },
+  "main": "src/diffsearcher.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fdsaer/frontend-project-lvl2.git"
