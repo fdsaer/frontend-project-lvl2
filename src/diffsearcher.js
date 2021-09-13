@@ -7,7 +7,7 @@ export default (file1, file2) => {
   const file1Object = JSON.parse(fs.readFileSync(file1Path, 'utf8'));
   const file2Object = JSON.parse(fs.readFileSync(file2Path, 'utf8'));
   const commonKeys = [...Object.keys(file1Object), ...Object.keys(file2Object)]
-    .filter(( item, index, arr ) => arr.indexOf(item) === index)
+    .filter((item, index, arr) => arr.indexOf(item) === index)
     .sort();
   const diff = commonKeys.map((item) => {
     const result = [];

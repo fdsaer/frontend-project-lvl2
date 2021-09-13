@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander/esm.mjs';
-import diffsearcher from "./src/diffsearcher.js";
+import diffsearcher from './src/diffsearcher.js';
+
 const program = new Command();
 
 program
