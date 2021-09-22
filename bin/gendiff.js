@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander/esm.mjs';
-import diffsearcher from './src/diffsearcher.js';
+import diffSearcher from '../src/diffsearcher.js';
 
 const program = new Command();
 
@@ -10,7 +10,7 @@ program
   .description('Compares two configuration files and shows a difference.')
   .option('-f, --format [type]', 'output format')
   .arguments('<filepath1> <filepath2>')
-  .action(diffsearcher);
+  .action(diffSearcher);
 
 program.parse();
 

@@ -11,18 +11,14 @@ export default (file1, file2) => {
     .sort();
   const diff = commonKeys.map((item) => {
     const result = [];
-    if (Object.prototype.hasOwnProperty.call(file1Object, item)
-      && Object.prototype.hasOwnProperty.call(file2Object, item)
-      && file1Object[item] === file2Object[item]) {
-      result.push(`  ${item}: ${file1Object[item]}`);
-    } else if (Object.prototype.hasOwnProperty.call(file1Object, item)
-      && Object.prototype.hasOwnProperty.call(file2Object, item)
-      && file1Object[item] !== file2Object[item]) {
-      result.push(`- ${item}: ${file1Object[item]}`);
+    if (!Object.prototype.hasOwnProperty.call(file1Object, item)) {
       result.push(`+ ${item}: ${file2Object[item]}`);
-    } else if (Object.prototype.hasOwnProperty.call(file1Object, item)) {
+    } else if (!Object.prototype.hasOwnProperty.call(file2Object, item)) {
       result.push(`- ${item}: ${file1Object[item]}`);
-    } else if (Object.prototype.hasOwnProperty.call(file2Object, item)) {
+    } else if (file1Object[item] === file2Object[item]) {
+      result.push(`  ${item}: ${file1Object[item]}`);
+    } else {
+      result.push(`- ${item}: ${file1Object[item]}`);
       result.push(`+ ${item}: ${file2Object[item]}`);
     }
     return result;
