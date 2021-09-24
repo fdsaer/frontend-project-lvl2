@@ -23,5 +23,5 @@ export default (file1, file2) => {
     }
     return result;
   });
-  console.log(`{\r\n\t${diff.flat().join('\r\n\t')}\r\n}`);
+  return `{\r\n\t${diff.flat().join('\r\n\t')}\r\n}`;
 };
