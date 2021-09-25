@@ -6,3 +6,4 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/1796a104ce6c94a88440/test_coverage)](https://codeclimate.com/github/fdsaer/frontend-project-lvl2/test_coverage)
 ### Asciinemas:
 [![asciicast](https://asciinema.org/a/434766.svg)](https://asciinema.org/a/434766)
+[![asciicast](https://asciinema.org/a/437991.svg)](https://asciinema.org/a/437991)

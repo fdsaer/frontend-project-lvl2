@@ -1,11 +1,16 @@
 import * as fs from 'fs';
 import path from 'path';
+import parsers from './parsers.js';
 
 export default (file1, file2) => {
   const file1Path = path.resolve(file1);
   const file2Path = path.resolve(file2);
-  const file1Object = JSON.parse(fs.readFileSync(file1Path, 'utf8'));
-  const file2Object = JSON.parse(fs.readFileSync(file2Path, 'utf8'));
+  const file1Extension = file1Path.split('.').slice(-1)[0];
+  const file2Extension = file2Path.split('.').slice(-1)[0];
+  const file1Content = fs.readFileSync(file1Path, 'utf8');
+  const file2Content = fs.readFileSync(file2Path, 'utf8');
+  const file1Object = parsers(file1Content, file1Extension);
+  const file2Object = parsers(file2Content, file2Extension);
   const commonKeys = [...Object.keys(file1Object), ...Object.keys(file2Object)]
     .filter((item, index, arr) => arr.indexOf(item) === index)
     .sort();

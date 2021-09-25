@@ -21,7 +21,8 @@
   "homepage": "https://github.com/fdsaer/frontend-project-lvl2#readme",
   "type": "module",
   "dependencies": {
-    "commander": "^8.1.0"
+    "commander": "^8.1.0",
+    "js-yaml": "^3.14.1"
   },
   "devDependencies": {
     "@jest/globals": "^27.2.1",
