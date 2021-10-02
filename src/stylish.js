@@ -1,35 +1,43 @@
-const makeRepeater = (filler, number) => (
+const makeOffset = (filler, number) => (
   new Array(number).fill(filler).join('')
 );
 
-const stylish = (data, replacer, iter) => {
+const makeString = ([key, val, status, val2], replacer, offset) => {
+  const joinReplacer = `\n${makeOffset(replacer, offset + 1)}`;
+  const addedReplacer = `${joinReplacer.slice(0, -2)}+ `;
+  const deletedReplacer = `${joinReplacer.slice(0, -2)}- `;
+  let resultString = '';
+  switch (status) {
+    case ('added'): {
+      resultString = `${addedReplacer}${key.toString()}: ${stylish(val, replacer, offset + 1)}`;
+      break;
+    }
+    case ('deleted'): {
+      resultString = `${deletedReplacer}${key.toString()}: ${stylish(val, replacer, offset + 1)}`;
+      break;
+    }
+    case ('changed'): {
+      resultString = `${deletedReplacer}${key.toString()}: ${stylish(val, replacer, offset + 1)}`
+        + `${addedReplacer}${key.toString()}: ${stylish(val2, replacer, offset + 1)}`;
+      break;
+    }
+    case ('equal'): {
+      resultString = `${joinReplacer}${key.toString()}: ${stylish(val, replacer, offset + 1)}`;
+      break;
+    }
+    default: {
+      resultString = `${joinReplacer}${key.toString()}: ${stylish(val, replacer, offset + 1)}`;
+    }
+  }
+  return resultString;
+}
+
+const stylish = (data, replacer, offset) => {
   if (!Array.isArray(data)) {
     return data === null ? 'null' : data.toString();
   }
-  const arr = data.map(([key, val, status, val2]) => {
-    const joinReplacer = `\n${makeRepeater(replacer, iter + 1)}`;
-    const addedReplacer = `${joinReplacer.slice(0, -2)}+ `;
-    const deletedReplacer = `${joinReplacer.slice(0, -2)}- `;
-    switch (status) {
-      case ('added'): {
-        return `${addedReplacer}${key.toString()}: ${stylish(val, replacer, iter + 1)}`;
-      }
-      case ('deleted'): {
-        return `${deletedReplacer}${key.toString()}: ${stylish(val, replacer, iter + 1)}`;
-      }
-      case ('changed'): {
-        return `${deletedReplacer}${key.toString()}: ${stylish(val, replacer, iter + 1)}`
-          + `${addedReplacer}${key.toString()}: ${stylish(val2, replacer, iter + 1)}`;
-      }
-      case ('equal'): {
-        return `${joinReplacer}${key.toString()}: ${stylish(val, replacer, iter + 1)}`;
-      }
-      default: {
-        return `${joinReplacer}${key.toString()}: ${stylish(val, replacer, iter + 1)}`;
-      }
-    }
-  });
-  return `{${arr.join('')}\n${makeRepeater(replacer, iter)}}`;
+  const arr = data.map((item) => makeString(item, replacer, offset));
+  return `{${arr.join('')}\n${makeOffset(replacer, offset)}}`;
 };
 
 export default stylish;
