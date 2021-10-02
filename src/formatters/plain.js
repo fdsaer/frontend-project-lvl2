@@ -1,16 +1,17 @@
 const valFormatter = (val) => {
+  let result = `'${val}'`;
   if (Array.isArray(val)) {
-    return '[complex value]';
+    result = '[complex value]';
   } if (val === true) {
-    return 'true';
+    result = 'true';
   } if (val === false) {
-    return 'false';
+    result = 'false';
   } if (val === null) {
-    return 'null';
+    result = 'null';
   } if (val === undefined) {
-    return 'undefined';
+    result = 'undefined';
   }
-  return `'${val}'`;
+  return result;
 };
 
 const parseItem = ([key, val, status, val2], formatter, path) => {
