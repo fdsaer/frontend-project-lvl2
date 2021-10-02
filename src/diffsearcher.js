@@ -3,40 +3,41 @@ import path from 'path';
 import parsers from './parsers.js';
 import stylish from './stylish.js';
 
+const itemIsObject = (item) => (
+  typeof (item) === 'object' && !Array.isArray(item) && item !== null
+);
+
+const getItemDifference = (item, obj1, obj2, diffSearcher) => {
+  let result = [];
+  const obj1Property = Object.prototype.hasOwnProperty.call(obj1, item) ? obj1[item] : '';
+  const obj2Property = Object.prototype.hasOwnProperty.call(obj2, item) ? obj2[item] : '';
+  if (itemIsObject(obj1Property) && itemIsObject(obj2Property)) {
+    result = [item, diffSearcher(obj1Property, obj2Property), 'equal'];
+  } else if (itemIsObject(obj1Property) && Object.prototype.hasOwnProperty.call(obj2, item)) {
+    result = [item, diffSearcher(obj1Property, obj1Property), 'changed', obj2[item]];
+  } else if (itemIsObject(obj1Property)) {
+    result = [item, diffSearcher(obj1Property, obj1Property), 'deleted'];
+  } else if (itemIsObject(obj2Property) && Object.prototype.hasOwnProperty.call(obj1, item)) {
+    result = [item, obj1[item], 'changed', diffSearcher(obj2Property, obj2Property)];
+  } else if (itemIsObject(obj2Property)) {
+    result = [item, diffSearcher(obj2Property, obj2Property), 'added'];
+  } else if (!Object.prototype.hasOwnProperty.call(obj1, item)) {
+    result = [item, obj2[item], 'added'];
+  } else if (!Object.prototype.hasOwnProperty.call(obj2, item)) {
+    result = [item, obj1[item], 'deleted'];
+  } else if (obj1[item] === obj2[item]) {
+    result = [item, obj1[item], 'equal'];
+  } else {
+    result = ([item, obj1[item], 'changed', obj2[item]]);
+  }
+  return result;
+};
+
 const getObjDifference = (obj1, obj2) => {
   const commonKeys = [...Object.keys(obj1), ...Object.keys(obj2)]
     .filter((item, index, arr) => arr.indexOf(item) === index)
     .sort();
-  const diff = commonKeys.map((item) => {
-    let result = [];
-    const obj1Property = Object.prototype.hasOwnProperty.call(obj1, item) ? obj1[item] : '';
-    const obj2Property = Object.prototype.hasOwnProperty.call(obj2, item) ? obj2[item] : '';
-    if ((typeof (obj1Property) === 'object' && !Array.isArray(obj1Property) && obj1Property !== null)
-      && (typeof (obj2Property) === 'object' && !Array.isArray(obj2Property) && obj2Property !== null)) {
-      result = [item, getObjDifference(obj1Property, obj2Property), 'equal'];
-    } else if ((typeof (obj1Property) === 'object' && !Array.isArray(obj1Property) && obj1Property !== null)) {
-      if (Object.prototype.hasOwnProperty.call(obj2, item)) {
-        result = [item, getObjDifference(obj1Property, obj1Property), 'changed', obj2[item]];
-      } else {
-        result = [item, getObjDifference(obj1Property, obj1Property), 'deleted'];
-      }
-    } else if ((typeof (obj2Property) === 'object' && !Array.isArray(obj2Property) && obj2Property !== null)) {
-      if (Object.prototype.hasOwnProperty.call(obj1, item)) {
-        result = [item, obj1[item], 'changed', getObjDifference(obj2Property, obj2Property)];
-      } else {
-        result = [item, getObjDifference(obj2Property, obj2Property), 'added'];
-      }
-    } else if (!Object.prototype.hasOwnProperty.call(obj1, item)) {
-      result = [item, obj2[item], 'added'];
-    } else if (!Object.prototype.hasOwnProperty.call(obj2, item)) {
-      result = [item, obj1[item], 'deleted'];
-    } else if (obj1[item] === obj2[item]) {
-      result = [item, obj1[item], 'equal'];
-    } else {
-      result = ([item, obj1[item], 'changed', obj2[item]]);
-    }
-    return result;
-  });
+  const diff = commonKeys.map((item) => getItemDifference(item, obj1, obj2, getObjDifference));
   return diff;
 };
 
