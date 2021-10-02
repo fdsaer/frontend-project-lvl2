@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import path from 'path';
 import parsers from './parsers.js';
-import stylish from './stylish.js';
+import formatter from './formatters/index.js';
 
 const itemIsObject = (item) => (
   typeof (item) === 'object' && !Array.isArray(item) && item !== null
@@ -41,7 +41,7 @@ const getObjDifference = (obj1, obj2) => {
   return diff;
 };
 
-const diffSearcher = (file1, file2, formatter = stylish) => {
+const diffSearcher = (file1, file2, formatName = 'stylish') => {
   const file1Path = path.resolve(file1);
   const file2Path = path.resolve(file2);
   const file1Extension = file1Path.split('.').slice(-1)[0];
@@ -51,7 +51,7 @@ const diffSearcher = (file1, file2, formatter = stylish) => {
   const file1Object = parsers(file1Content, file1Extension);
   const file2Object = parsers(file2Content, file2Extension);
   const diff = getObjDifference(file1Object, file2Object);
-  return formatter(diff, '    ', 0);
+  return formatter(formatName, diff);
 };
 
 export default diffSearcher;

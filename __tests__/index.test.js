@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
-const diffFlatResult = '{'
+const diffStylishResult = '{'
 + '\n    common: {'
 + '\n      + follow: false'
 + '\n        setting1: Value 1'
@@ -52,12 +52,32 @@ const diffFlatResult = '{'
 + '\n    }'
 + '\n}';
 
-test('json difference', () => {
+const diffFlatResult = (
+  "Property 'common.follow' was added with value: false"
+  + "\nProperty 'common.setting2' was removed"
+  + "\nProperty 'common.setting3' was updated. From true to null"
+  + "\nProperty 'common.setting4' was added with value: 'blah blah'"
+  + "\nProperty 'common.setting5' was added with value: [complex value]"
+  + "\nProperty 'common.setting6.doge.wow' was updated. From '' to 'so much'"
+  + "\nProperty 'common.setting6.ops' was added with value: 'vops'"
+  + "\nProperty 'group1.baz' was updated. From 'bas' to 'bars'"
+  + "\nProperty 'group1.nest' was updated. From [complex value] to 'str'"
+  + "\nProperty 'group2' was removed"
+  + "\nProperty 'group3' was added with value: [complex value]"
+  + ''
+);
+
+test('json stylish difference', () => {
   const actual = diffSearcher(getFixturePath('file1.2.json'), getFixturePath('file2.2.json'));
-  expect(actual).toBe(diffFlatResult);
+  expect(actual).toBe(diffStylishResult);
 });
 
-test('yaml difference', () => {
+test('yaml stylish difference', () => {
   const actual = diffSearcher(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'));
+  expect(actual).toBe(diffStylishResult);
+});
+
+test('json flat difference', () => {
+  const actual = diffSearcher(getFixturePath('file1.2.json'), getFixturePath('file2.2.json'), 'plain');
   expect(actual).toBe(diffFlatResult);
 });

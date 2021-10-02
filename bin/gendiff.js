@@ -5,7 +5,8 @@ import diffSearcher from '../src/diffsearcher.js';
 
 const program = new Command();
 const printer = (file1, file2) => {
-  console.log(diffSearcher(file1, file2));
+  const options = program.opts();
+  console.log(diffSearcher(file1, file2, options.format));
 };
 
 program
