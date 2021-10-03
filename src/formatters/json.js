@@ -1,12 +1,9 @@
 const makeDiffObj = (data) => {
   const diffObj = data.reduce((acc, [key, val]) => {
-    const newAcc = { ...acc };
     if (Array.isArray(val)) {
-      newAcc[key] = makeDiffObj(val);
-    } else {
-      newAcc[key] = val;
+      return { ...acc, [key]: makeDiffObj(val) };
     }
-    return newAcc;
+    return { ...acc, [key]: val };
   }, {});
   return diffObj;
 };
