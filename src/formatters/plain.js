@@ -1,10 +1,8 @@
 const valFormatter = (val) => {
   if (Array.isArray(val)) {
     return '[complex value]';
-  } if (val === true) {
-    return 'true';
-  } if (val === false) {
-    return 'false';
+  } if (typeof (val) === 'boolean' || typeof (val) === 'number') {
+    return val;
   } if (val === null) {
     return 'null';
   } if (val === undefined) {
