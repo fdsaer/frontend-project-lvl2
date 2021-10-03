@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import path from 'path';
+import _ from 'lodash';
 import parsers from './parsers.js';
 import formatter from './formatters/index.js';
 
@@ -32,9 +33,9 @@ const getItemDifference = (item, obj1, obj2, diffSearcher) => {
 
 const getObjDifference = (obj1, obj2) => {
   const commonKeys = [...Object.keys(obj1), ...Object.keys(obj2)]
-    .filter((item, index, arr) => arr.indexOf(item) === index)
-    .sort();
-  const diff = commonKeys.map((item) => getItemDifference(item, obj1, obj2, getObjDifference));
+    .filter((item, index, arr) => arr.indexOf(item) === index);
+  const diff = _.sortBy(commonKeys)
+    .map((item) => getItemDifference(item, obj1, obj2, getObjDifference));
   return diff;
 };
 
