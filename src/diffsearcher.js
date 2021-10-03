@@ -8,29 +8,26 @@ const itemIsObject = (item) => (
 );
 
 const getItemDifference = (item, obj1, obj2, diffSearcher) => {
-  let result = [];
   const obj1Property = Object.prototype.hasOwnProperty.call(obj1, item) ? obj1[item] : '';
   const obj2Property = Object.prototype.hasOwnProperty.call(obj2, item) ? obj2[item] : '';
   if (itemIsObject(obj1Property) && itemIsObject(obj2Property)) {
-    result = [item, diffSearcher(obj1Property, obj2Property), 'equal'];
-  } else if (itemIsObject(obj1Property) && Object.prototype.hasOwnProperty.call(obj2, item)) {
-    result = [item, diffSearcher(obj1Property, obj1Property), 'changed', obj2[item]];
-  } else if (itemIsObject(obj1Property)) {
-    result = [item, diffSearcher(obj1Property, obj1Property), 'deleted'];
-  } else if (itemIsObject(obj2Property) && Object.prototype.hasOwnProperty.call(obj1, item)) {
-    result = [item, obj1[item], 'changed', diffSearcher(obj2Property, obj2Property)];
-  } else if (itemIsObject(obj2Property)) {
-    result = [item, diffSearcher(obj2Property, obj2Property), 'added'];
-  } else if (!Object.prototype.hasOwnProperty.call(obj1, item)) {
-    result = [item, obj2[item], 'added'];
-  } else if (!Object.prototype.hasOwnProperty.call(obj2, item)) {
-    result = [item, obj1[item], 'deleted'];
-  } else if (obj1[item] === obj2[item]) {
-    result = [item, obj1[item], 'equal'];
-  } else {
-    result = ([item, obj1[item], 'changed', obj2[item]]);
+    return [item, diffSearcher(obj1Property, obj2Property), 'equal'];
+  } if (itemIsObject(obj1Property) && Object.prototype.hasOwnProperty.call(obj2, item)) {
+    return [item, diffSearcher(obj1Property, obj1Property), 'changed', obj2[item]];
+  } if (itemIsObject(obj1Property)) {
+    return [item, diffSearcher(obj1Property, obj1Property), 'deleted'];
+  } if (itemIsObject(obj2Property) && Object.prototype.hasOwnProperty.call(obj1, item)) {
+    return [item, obj1[item], 'changed', diffSearcher(obj2Property, obj2Property)];
+  } if (itemIsObject(obj2Property)) {
+    return [item, diffSearcher(obj2Property, obj2Property), 'added'];
+  } if (!Object.prototype.hasOwnProperty.call(obj1, item)) {
+    return [item, obj2[item], 'added'];
+  } if (!Object.prototype.hasOwnProperty.call(obj2, item)) {
+    return [item, obj1[item], 'deleted'];
+  } if (obj1[item] === obj2[item]) {
+    return [item, obj1[item], 'equal'];
   }
-  return result;
+  return ([item, obj1[item], 'changed', obj2[item]]);
 };
 
 const getObjDifference = (obj1, obj2) => {

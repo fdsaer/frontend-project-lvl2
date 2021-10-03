@@ -11,22 +11,16 @@ const parseItem = ([key, val, status, val2], formatter, replacer, offset) => {
   const addedReplacer = `${joinReplacer.slice(0, -2)}+ `;
   const deletedReplacer = `${joinReplacer.slice(0, -2)}- `;
   const makeString = stringMaker(formatter, replacer, offset + 1, key);
-  let result = '';
   switch (status) {
     case ('added'):
-      result = makeString(val, addedReplacer);
-      break;
+      return makeString(val, addedReplacer);
     case ('deleted'):
-      result = makeString(val, deletedReplacer);
-      break;
+      return makeString(val, deletedReplacer);
     case ('changed'):
-      result = makeString(val, deletedReplacer)
-        + makeString(val2, addedReplacer);
-      break;
+      return makeString(val, deletedReplacer) + makeString(val2, addedReplacer);
     default:
-      result = makeString(val, joinReplacer);
+      return makeString(val, joinReplacer);
   }
-  return result;
 };
 
 const stylish = (data, replacer, offset) => {

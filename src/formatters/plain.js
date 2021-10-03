@@ -1,36 +1,30 @@
 const valFormatter = (val) => {
-  let result = `'${val}'`;
   if (Array.isArray(val)) {
-    result = '[complex value]';
+    return '[complex value]';
   } if (val === true) {
-    result = 'true';
+    return 'true';
   } if (val === false) {
-    result = 'false';
+    return 'false';
   } if (val === null) {
-    result = 'null';
+    return 'null';
   } if (val === undefined) {
-    result = 'undefined';
+    return 'undefined';
   }
-  return result;
+  return `'${val}'`;
 };
 
 const parseItem = ([key, val, status, val2], formatter, path) => {
-  let result = '';
   const divider = path === '' ? '' : '.';
   switch (status) {
     case ('added'):
-      result = `Property '${path}${divider}${key}' was added with value: ${valFormatter(val)}`;
-      break;
+      return `Property '${path}${divider}${key}' was added with value: ${valFormatter(val)}`;
     case ('deleted'):
-      result = `Property '${path}${divider}${key}' was removed`;
-      break;
+      return `Property '${path}${divider}${key}' was removed`;
     case ('changed'):
-      result = `Property '${path}${divider}${key}' was updated. From ${valFormatter(val)} to ${valFormatter(val2)}`;
-      break;
+      return `Property '${path}${divider}${key}' was updated. From ${valFormatter(val)} to ${valFormatter(val2)}`;
     default:
-      result = `${formatter(val, (path + divider + key))}`;
+      return `${formatter(val, (path + divider + key))}`;
   }
-  return result;
 };
 
 const plain = (data, path = '') => {
