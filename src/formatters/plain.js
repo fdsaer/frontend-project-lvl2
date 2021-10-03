@@ -1,12 +1,12 @@
 const valFormatter = (val) => {
   if (Array.isArray(val)) {
     return '[complex value]';
-  } if (typeof (val) === 'boolean' || typeof (val) === 'number') {
+  } if (typeof (val) === 'boolean'
+    || typeof (val) === 'number'
+    || typeof (val) === 'undefined') {
     return val;
   } if (val === null) {
     return 'null';
-  } if (val === undefined) {
-    return 'undefined';
   }
   return `'${val}'`;
 };

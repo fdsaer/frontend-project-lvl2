@@ -1,0 +1,40 @@
+{
+ "common": {
+  "follow": "Property was added with value: false",
+  "setting1": "Property value 'Value 1' was not updated",
+  "setting2": "Property was removed",
+  "setting3": "Property was updated. From true to null",
+  "setting4": "Property was added with value: 'blah blah'",
+  "setting5": {
+   "key5": "Property value 'value5' was not updated"
+  },
+  "setting6": {
+   "doge": {
+    "wow": "Property was updated. From '' to 'so much'"
+   },
+   "key": "Property value 'value' was not updated",
+   "ops": "Property was added with value: 'vops'"
+  }
+ },
+ "group1": {
+  "baz": "Property was updated. From 'bas' to 'bars'",
+  "foo": "Property value 'bar' was not updated",
+  "nest": {
+   "key": "Property value 'value' was not updated"
+  }
+ },
+ "group2": {
+  "abc": "Property value '12345' was not updated",
+  "deep": {
+   "id": "Property value '45' was not updated"
+  }
+ },
+ "group3": {
+  "deep": {
+   "id": {
+    "number": "Property value '45' was not updated"
+   }
+  },
+  "fee": "Property value '100500' was not updated"
+ }
+}
